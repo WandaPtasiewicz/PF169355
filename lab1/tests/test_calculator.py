@@ -31,8 +31,8 @@ class TestCalculator(unittest.TestCase):
         self.assertEqual(self.calculator.divide(6,2),3)
 
     def test_divide_int_error(self):
-        
-        with self.assertRaises(ValueError):
+
+        with self.assertRaises(ZeroDivisionError):
             self.calculator.divide(6,0)
 
     def tearDown(self):

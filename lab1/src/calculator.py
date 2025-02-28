@@ -14,5 +14,5 @@ class Calculator:
 
     def divide(self, a, b):
         if b == 0:
-            raise ValueError("nie mozna dzielic przez zero")
+            raise ZeroDivisionError
         return a/b
