@@ -2,6 +2,7 @@
 class ShoppingCart:
     cart = []
 
+
     def add_item(self,item):
         self.cart.append(item)
 
