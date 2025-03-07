@@ -1,6 +1,5 @@
 from asyncpg import RaiseError
 
-
 class Calculator:
 
     def add(self, a, b):
