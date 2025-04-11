@@ -7,14 +7,15 @@ class LibraryItem:
         self.status = status.AVAILABLE
         self.days = 0
 
-    def rental_days(self, int days):
+    def rental_days(self, day):
         if self.status == "BORROWED":
-            if days >= 0:
-                self.days = days
+            if day >= 0:
+                self.days = day
             else:
                 raise ValueError
         else:
             raise ValueError
 
-    def change status(self, Status new_status):
+    def changeStatus(self, new_status):
+        
 
