@@ -1,19 +1,23 @@
 import datetime
-import json
 from enum import Enum, auto
+
 
 class UserRole(Enum):
     CLIENT = auto()
-    EMPLOYEE= auto()
+    EMPLOYEE = auto()
     ADMIN = auto()
+
 
 def age_from_date(date):
     age = datetime.datetime.now().year - date.year
-    if (datetime.datetime.now().month, datetime.datetime.now().day) < (date.month, date.day):
+    if ((datetime.datetime.now().month, datetime.datetime.now().day) <
+            (date.month, date.day)):
         age -= 1
     return age
 
+
 class User:
+
     def __init__(self, first_name, last_name, phone, birth, role):
 
         self.first_name = first_name

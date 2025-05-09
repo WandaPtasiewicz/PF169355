@@ -1,5 +1,4 @@
 import datetime
-import json
 from enum import Enum, auto
 from src.user import age_from_date, User
 
@@ -15,8 +14,10 @@ class MovieGenre(Enum):
     ADVENTURE = auto()
     SCIENCE_FICTION = auto()
 
+
 class Movie:
-    def __init__(self,id , title, director, release_year, genre, age_limit = 0):
+    def __init__(self, id, title, director, release_year,
+                 genre, age_limit=0):
 
         self.id = id
         self.title = title
