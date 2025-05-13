@@ -65,9 +65,13 @@ class TestMovie(unittest.TestCase):
         self.valid_movie.release_year = 2000
         self.assertEqual(2000, self.valid_movie.release_year)
 
-    def test_setter_release_year_negative(self):
+    def test_setter_release_year_too_old(self):
         self.valid_movie.genre = MovieGenre.FANTASY
         self.assertNotEqual(1999, self.valid_movie.release_year)
+
+    def test_setter_release_year_from_future(self):
+        self.valid_movie.genre = MovieGenre.FANTASY
+        self.assertNotEqual(3009, self.valid_movie.release_year)
 
     def test_setter_age_limit_positive(self):
         self.valid_movie.age_limit = 20
@@ -126,17 +130,19 @@ class TestMovie(unittest.TestCase):
         self.assertEqual(str(context.exception),
                          "Release year must be a number")
 
-    def test_error_release_year_from_future(self):
-        with self.assertRaises(ValueError) as context:
-            self.valid_movie.release_year = 2222
-        self.assertEqual(str(context.exception),
-                         "Invalid release year: 2222")
-
     def test_error_creation_release_year_from_future(self):
         with self.assertRaises(ValueError) as context:
             Movie(1, "Indiana Jones", "John Bon", 2222,
                   MovieGenre.ACTION, 12)
         self.assertEqual(str(context.exception), "Invalid release year: 2222")
+
+    def test_release_year_min(self):
+        self.valid_movie.release_year = 1888
+        self.assertEqual(1888, self.valid_movie.release_year)
+
+    def test_release_year_max(self):
+        self.valid_movie.release_year = 2025
+        self.assertEqual(2025, self.valid_movie.release_year)
 
     def test_creation_error_genre(self):
         with self.assertRaises(ValueError) as context:
@@ -273,6 +279,10 @@ class TestMovie(unittest.TestCase):
 
         with self.assertRaises(ValueError):
             adult_movie.rent_movie(young_user)
+
+    def test_error_rent_movie_by_null(self):
+        with self.assertRaises(ValueError):
+            self.valid_movie.rent_movie(None)
 
     def tearDown(self):
         pass

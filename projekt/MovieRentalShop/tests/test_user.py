@@ -210,9 +210,14 @@ class TestUser(unittest.TestCase):
         self.assertEqual(str(context.exception),
                          "You already rented this movie")
 
+    def test_error_employee_rent_movie(self):
+        self.valid_user.role = UserRole.EMPLOYEE
+        with self.assertRaises(ValueError) as context:
+            self.valid_user.rent_movie(self.test_movie)
+        self.assertEqual(str(context.exception),
+                         "Only user can rent a movie")
+
     def test_error_return_returned_movie(self):
-        self.valid_user.rent_movie(self.test_movie)
-        self.valid_user.return_movie(self.test_movie)
         with self.assertRaises(ValueError) as context:
             self.valid_user.return_movie(self.test_movie)
         self.assertEqual(str(context.exception),

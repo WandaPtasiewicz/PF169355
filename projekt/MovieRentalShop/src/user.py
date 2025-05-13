@@ -91,9 +91,10 @@ class User:
     def rent_movie(self, movie):
         if not self.active:
             raise ValueError("Your account has been deactivated")
-
         if movie in self.rented_movies:
             raise ValueError("You already rented this movie")
+        if not self.role == UserRole.CLIENT:
+            raise ValueError("Only user can rent a movie")
 
         movie.rent_movie(self)
         self.rented_movies.append(movie)

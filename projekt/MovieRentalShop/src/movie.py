@@ -1,6 +1,6 @@
 import datetime
 from enum import Enum, auto
-from src.user import age_from_date, User
+from src.user import age_from_date, User, UserRole
 
 
 class MovieGenre(Enum):
@@ -116,6 +116,7 @@ class Movie:
         self.rented_by = user
 
     def return_movie(self):
+
         if self.available:
             raise ValueError("This movie is already returned")
 
