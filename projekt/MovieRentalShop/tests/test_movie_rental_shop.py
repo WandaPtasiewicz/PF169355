@@ -1,6 +1,8 @@
 import datetime
 import unittest
 
+from parameterized import parameterized
+
 from src.movie import Movie, MovieGenre
 from src.movie_rental_shop import MovieRentalShop
 from src.user import User, UserRole
@@ -32,18 +34,24 @@ class TestMovieRentalShop(unittest.TestCase):
         self.assertIn(self.test_employee, self.valid_movie_rental_shop.users)
         self.assertIn(self.test_movie, self.valid_movie_rental_shop.movies)
 
-    def test_add_movie_positive(self):
-        test_movie_rental_shop = MovieRentalShop("test", "Warszawa")
-        test_movie_rental_shop.add_movie(self.test_movie)
-        self.assertEqual(test_movie_rental_shop.movies,
-                         self.valid_movie_rental_shop.movies)
+    @parameterized.expand([
+        Movie(12, "Harry Potter 1", "J.K.Rowling", 2000, MovieGenre.FANTASY),
+        Movie(13, "Harry Potter 2", "J.K.Rowling", 2002, MovieGenre.FANTASY),
+        Movie(14, "Harry Potter 3", "J.K.Rowling", 2004, MovieGenre.FANTASY)
+    ])
+    def test_add_movie_positive(self, movie):
+        self.valid_movie_rental_shop.add_movie(movie)
 
-    def test_add_users_positive(self):
-        test_movie_rental_shop = MovieRentalShop("test", "Warszawa")
-        test_movie_rental_shop.add_user(self.test_client)
-        test_movie_rental_shop.add_user(self.test_employee)
-        self.assertEqual(test_movie_rental_shop.users,
-                         self.valid_movie_rental_shop.users)
+    @parameterized.expand([
+        ("user1", User("Wanda", "Nowak", 123123123,
+                       datetime.date(2010, 7, 25), UserRole.CLIENT)),
+        ("user2", User("Wanda", "Nowak", 333222333,
+                       datetime.date(2010, 3, 25), UserRole.CLIENT)),
+        ("user3", User("Wanda", "Nowak", 111222111,
+                       datetime.date(2010, 1, 25), UserRole.CLIENT)),
+    ])
+    def test_add_users_positive(self, _, user):
+        self.valid_movie_rental_shop.add_user(user)
 
     def test_add_the_same_movie_negative(self):
         with self.assertRaises(ValueError) as context:
@@ -66,7 +74,7 @@ class TestMovieRentalShop(unittest.TestCase):
         self.assertEqual(str(context.exception),
                          "This user is already in system")
 
-    def test_add_user_invalid_date(self):
+    def test_add_user_invalid_data(self):
         with self.assertRaises(ValueError) as context:
             self.valid_movie_rental_shop.add_user("user")
         self.assertEqual(str(context.exception), "Invalid data")
