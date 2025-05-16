@@ -23,6 +23,7 @@ class User:
         self.first_name = first_name
         self.last_name = last_name
         self.role = role
+        self._phone = None
         self.phone = phone
         self.birth = birth
         self.register_date = datetime.date.today()
@@ -70,6 +71,8 @@ class User:
 
     @phone.setter
     def phone(self, value):
+        if self._phone is not None:
+            raise ValueError("You can't change phone number")
         if not isinstance(value, int):
             raise ValueError("Phone number must only contain numbers")
         if len(str(value)) != 9:

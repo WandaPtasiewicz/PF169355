@@ -29,13 +29,10 @@ class TestMovie(unittest.TestCase):
                        2002, MovieGenre.ACTION, 12)
         self.assertIsInstance(movie1, Movie)
 
-    def test_setter_id_positive(self):
-        self.valid_movie.id = 2
-        self.assertEqual(2, self.valid_movie.id)
-
-    def test_setter_id_negative(self):
-        self.valid_movie.id = 2
-        self.assertNotEqual(self.valid_movie.title, 3)
+    def test_setter_id_error(self):
+        with self.assertRaises(ValueError) as context:
+            self.valid_movie.id = 2
+        self.assertEqual(str(context.exception), "You can't change id number")
 
     def test_setter_title_positive(self):
         self.valid_movie.title = "Avengers"
@@ -81,11 +78,6 @@ class TestMovie(unittest.TestCase):
         self.valid_movie.age_limit = 2
         self.assertNotEqual(1999, self.valid_movie.age_limit)
 
-    def test_error_not_int_id(self):
-        with self.assertRaises(ValueError) as context:
-            self.valid_movie.id = "jedynka"
-        self.assertEqual(str(context.exception), "id must be an integer")
-
     def test_error_creation_not_int_id(self):
         with self.assertRaises(ValueError) as context:
             Movie("dwa", "Kokos", "Kot",
@@ -96,12 +88,6 @@ class TestMovie(unittest.TestCase):
         with self.assertRaises(ValueError) as context:
             Movie(-3, "Kokos", "Kot", 2002,
                   MovieGenre.FANTASY, 7)
-        self.assertEqual(str(context.exception),
-                         "id must be greater than zero")
-
-    def test_error_id_less_than_zero(self):
-        with self.assertRaises(ValueError) as context:
-            self.valid_movie.id = -7
         self.assertEqual(str(context.exception),
                          "id must be greater than zero")
 

@@ -28,39 +28,37 @@ class TestUser(unittest.TestCase):
                      datetime.date(2000, 3, 12), UserRole.EMPLOYEE)
         self.assertIsInstance(user1, User)
 
-    def test_setup_first_name_positive(self):
+    def test_setter_first_name_positive(self):
         self.valid_user.first_name = "Magda"
         self.assertEqual("Magda", self.valid_user.first_name)
 
-    def test_setup_first_name_negative(self):
+    def test_setter_first_name_negative(self):
         self.valid_user.first_name = "Magda"
-        self.assertNotEqual("Magd", self.valid_user.first_name)
+        self.assertNotEqual("Jacek", self.valid_user.first_name)
 
-    def test_setup_last_name_positive(self):
+    def test_setter_last_name_positive(self):
         self.valid_user.last_name = "Magda"
         self.assertEqual("Magda", self.valid_user.last_name)
 
-    def test_setup_last_name_negative(self):
+    def test_setter_last_name_negative(self):
         self.valid_user.last_name = "Magda"
-        self.assertNotEqual("Magd", self.valid_user.last_name)
+        self.assertNotEqual("Placek", self.valid_user.last_name)
 
-    def test_setup_phone_positive(self):
-        self.valid_user.phone = 123444757
-        self.assertEqual(123444757, self.valid_user.phone)
+    def test_setter_phone_error(self):
+        with self.assertRaises(ValueError) as context:
+            self.valid_user.phone = 123123123
+        self.assertEqual(str(context.exception),
+                         "You can't change phone number")
 
-    def test_setup_phone_negative(self):
-        self.valid_user.phone = 123444757
-        self.assertNotEqual(123494757, self.valid_user.phone)
-
-    def test_setup_birth_positive(self):
+    def test_setter_birth_positive(self):
         self.valid_user.birth = datetime.date(2000, 3, 22)
         self.assertEqual(datetime.date(2000, 3, 22), self.valid_user.birth)
 
-    def test_setup_birth_negative(self):
+    def test_setter_birth_negative(self):
         self.valid_user.birth = datetime.date(2000, 3, 22)
-        self.assertNotEqual(datetime.date(2000, 9, 22), self.valid_user.birth)
+        self.assertNotEqual(datetime.date(2010, 7, 25), self.valid_user.birth)
 
-    def test_error_creation_too_short_phone(self):
+    def test_error_too_short_phone(self):
         with self.assertRaises(ValueError) as context:
             User("Mariusz", "Gork", 99966,
                  datetime.date(2000, 3, 12),
@@ -68,22 +66,10 @@ class TestUser(unittest.TestCase):
         self.assertEqual(str(context.exception),
                          "Phone number must be 9 digits")
 
-    def test_error_too_short_phone(self):
-        with self.assertRaises(ValueError) as context:
-            self.valid_user.phone = 9
-        self.assertEqual(str(context.exception),
-                         "Phone number must be 9 digits")
-
-    def test_error_creation_letters_phone(self):
-        with self.assertRaises(ValueError) as context:
-            User("Mariusz", "Gork", "233abc",
-                 datetime.date(2000, 3, 12), UserRole.EMPLOYEE)
-        self.assertEqual(str(context.exception),
-                         "Phone number must only contain numbers")
-
     def test_error_letters_phone(self):
         with self.assertRaises(ValueError) as context:
-            self.valid_user.phone = "osiem"
+            User("John", "Doe", "osiem12312312",
+                 datetime.date(2000, 1, 1), UserRole.CLIENT)
         self.assertEqual(str(context.exception),
                          "Phone number must only contain numbers")
 

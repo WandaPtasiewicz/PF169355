@@ -1,6 +1,6 @@
 import datetime
 from enum import Enum, auto
-from src.user import age_from_date, User, UserRole
+from src.user import age_from_date, User
 
 
 class MovieGenre(Enum):
@@ -19,6 +19,7 @@ class Movie:
     def __init__(self, id, title, director, release_year,
                  genre, age_limit=0):
 
+        self._id = None
         self.id = id
         self.title = title
         self.director = director
@@ -36,6 +37,8 @@ class Movie:
 
     @id.setter
     def id(self, value):
+        if self._id is not None:
+            raise ValueError("You can't change id number")
         if not isinstance(value, int):
             raise ValueError("id must be an integer")
         if value < 0:
