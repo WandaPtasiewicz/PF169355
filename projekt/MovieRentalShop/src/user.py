@@ -10,8 +10,8 @@ class UserRole(Enum):
 
 def age_from_date(date):
     age = datetime.datetime.now().year - date.year
-    if ((datetime.datetime.now().month, datetime.datetime.now().day) <
-            (date.month, date.day)):
+    if ((datetime.datetime.now().month,
+         datetime.datetime.now().day) < (date.month, date.day)):
         age -= 1
     return age
 

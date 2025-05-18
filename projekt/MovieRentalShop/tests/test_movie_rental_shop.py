@@ -257,7 +257,7 @@ class TestMovieRentalShop(unittest.TestCase):
 
     def test_find_users_by_birth_name(self):
         self.assertEqual(self.valid_movie_rental_shop.find_users_by_birth(
-                            datetime.date(2000, 11, 23)), [self.test_employee])
+            datetime.date(2000, 11, 23)), [self.test_employee])
 
     def test_find_active_users(self):
         self.assertEqual(self.valid_movie_rental_shop.find_active_users(),
